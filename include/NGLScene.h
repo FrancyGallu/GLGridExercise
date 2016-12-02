@@ -1,7 +1,9 @@
 #ifndef NGLSCENE_H_
 #define NGLSCENE_H_
+#include <ngl/Mat4.h>
 #include <ngl/Vec3.h>
-
+#include <ngl/AbstractVAO.h>
+#include <memory>
 #include <QOpenGLWindow>
 #include "WindowParams.h"
 //----------------------------------------------------------------------------------------------------------------------
@@ -78,7 +80,23 @@ private:
     WinParams m_win;
     /// position for our model
     ngl::Vec3 m_modelPos;
+    /// our camera transform matrix
+    ngl::Mat4 m_view;
+    /// our camera projection matrix
+    ngl::Mat4 m_projection;
+    /// our VAO fro the mesh
+    std::unique_ptr<ngl::AbstractVAO> m_vao;
+    /// number of verts
+    size_t m_nVerts;
 
+    /// @brief create a vao
+    /// @param _w the width in screen space
+    /// @param _d the depth in sceen space
+    /// @param _stepsW steps along the w for the grid
+    /// @param _stepsD steps along the d for the grid
+    void buildMesh(ngl::Real _w, ngl::Real _d, size_t _stepsW, size_t _stepsD);
+
+    void timerEvent(QTimerEvent *);
 };
 
 
